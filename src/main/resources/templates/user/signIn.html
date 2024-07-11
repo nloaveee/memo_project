@@ -5,19 +5,20 @@
       layout:decorate="~{layout/defaultLayout}">
       
       
-<section layout:fragment="content" class="d-flex justify-content-center">
-	<div class="sign-in-box">
+<section layout:fragment="content" class="contents d-flex justify-content-center">
+	<div class="login-box mt-5">
 		<h1>로그인</h1>
-		<form method="post" action="">
+		
+		<form method="post" action="/user/sign-in" id="loginForm">
 			<div class="form-group">
-				<input type="text" name="userId" placeholder="아이디를 입력하세요" class="form-control mt-4">
-				<input type="password" name="userPassword" placeholder="암호를 입력하세요" class="form-control mt-1">
+				<input type="text" name="loginId" placeholder="아이디를 입력하세요" class="form-control mt-4">
+				<input type="password" name="password" placeholder="암호를 입력하세요" class="form-control mt-1">
 			</div>
 			<div>
-				<input type="submit" value="로그인" class="btn btn-warning w-100">
+				<input type="submit" id="loginBtn" value="로그인" class="btn btn-warning w-100">
 			</div>
 			<div>
-				<input type="button" value="회원가입"  class="btn btn-primary w-100 mt-2">
+				<a class="btn btn-primary w-100 mt-2" href="/user/sign-up-view">회원가입</a> 
 			</div>
 		</form>
 	

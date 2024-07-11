@@ -5,5 +5,7 @@ header {height: 100px;}
 .contents {min-height: 500px;}
 footer {height: 100px;}
 
-.sign-in-box {width: 400px;
-margin: 100px 0 200px 0;}
+.login-box {width: 400px;}
+
+.sign-up-box {width: 700px;}
+

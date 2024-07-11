@@ -16,7 +16,7 @@ public class UserController {
 		return "user/signUp";
 	}
 	
-	//http://localhost/user/sign-In-view
+	//http://localhost/user/sign-in-view
 	@GetMapping("/sign-in-view")
 	public String signInView() {
 		return "user/signIn";
