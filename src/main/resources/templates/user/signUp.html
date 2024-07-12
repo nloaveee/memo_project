@@ -7,6 +7,7 @@
 <section layout:fragment="content" class="contents d-flex justify-content-center align-items-center">
 	<div class="sign-up-box">
 		<h1 class="mb-4">회원가입</h1>
+		
 		<form method="post" action="/user/sign-up" id="signUpForm">
 			<table class="sign-up-table table table-bordered">
 				<tr>
@@ -52,7 +53,117 @@
 <!-- script도 조각으로 해줘야 사용 가능 -->
 <th:block layout:fragment="script">
 	<script>
-	
+		$(document).ready(function(){
+			
+			// 중복확인 
+			$("#loginIdCheckBtn").on('click',function(){
+				// 경고 문구 안보이게 초기화 (초기화를 안해주면 조건에 맞아도 경고 문구가 안사라진다.)
+				$("#idCheckLength").addClass("d-none");
+				$("#idCheckDuplicated").addClass("d-none");
+				$("#idCheckOk").addClass("d-none");
+				
+				let loginId = $("#loginId").val().trim();
+				
+				//validation
+				if (loginId.length < 4) {
+					// 처음 안보이게 초기화를 해서 if문에 걸리면 d-none class를 제거해서 문구가 나오게 만든다.
+					$("#idCheckLength").removeClass("d-none");
+					return;
+				}
+				
+				//AJAX
+				$.ajax({
+					// request
+					// 타입이 GET이면 생략 가능 
+					url:"/user/is-duplicated-id"
+					, data:{"loginId":loginId}
+				
+				
+					//response
+					,success:function(data) {
+						if (data.is_duplicated_id) { // 중복인 경우
+							$("#idCheckDuplicated").removeClass("d-none");
+						} else { // 중복이 아닌 경우 사용 가능
+							$("#idCheckOk").removeClass("d-none");
+						}
+					}	
+					
+					,error:function(error) {
+						alert("중복확인에 실패했습니다.");
+					}
+				});
+			});			
+			
+			
+			// 회원가입
+			$("#signUpForm").on('submit',function(e) {
+				e.preventDefault(); // 서브밋 기능 중단 (form 태그의 기능인 submit시 화면 이동 되는것 중단, 화면 이동이 안된다.)
+				
+				// validation
+				let loginId = $("#loginId").val().trim();
+				let password = $("#password").val().trim();
+				let confirmPassword = $("#confirmPassword").val();
+				let name = $("#name").val().trim();
+				let email = $("#email").val().trim();
+				
+				if (!loginId) {
+					alert("아이디를 입력하세요");
+					return false;
+				}
+				
+				if (!password || !confirmPassword) {
+					alert("비밀번호를 입력하세요");
+					return false;
+				}
+				
+				if (password != confirmPassword) {
+					alert("비밀번호가 일치하지 않습니다.");
+					return false;
+				}
+				
+				if(!name) {
+					alert("이름을 입력하세요");
+					return false;
+				}
+				
+				if (!email) {
+					alert("이메일을 입력하세요");
+					return false;
+				}
+				
+				// 아이디(loginId) 중복확인 후 사용 가능한지 확인 
+				// #idCheckOk d-none인 경우 중복인 경우라서 alert을 띄움 
+				if ($("#idCheckOk").hasClass("d-none")) { //중복인 경우
+					alert("아이디 중복확인을 해주세요");
+					return false;
+				}
+				
+				
+				// 서버 전송
+				
+				// 1) submit 호출 -> response가 화면 (HTML)
+				// form 태그로 잡아져 있어서 this라고 작성하면 form 태그이다.
+				//$(this)[0].submit(); // 화면이동
+				
+				// 2) AJAX 호출 -> response가 JSON
+				let url = $(this).attr("action"); //form 태그에 있는 action 속성을 가지고 url 값을 가지고 온다. 
+				console.log(url);
+				let params = $(this).serialize(); // form 태그에 있는 name 속성과 value를 파라미터 값을 가지고 온다.
+				console.log(params);
+				
+				
+				$.post(url, params) // request
+				.done(function(data){ // response done = success
+					if (data.code == 200) {
+						alert("가입을 환영합니다. 로그인 해주세요.");
+						// 가입 성공시 로그인 화면으로 이동 
+						location.href = "/user/sign-in-view";
+					} else {
+						alert(data.error_message);
+					}
+				}); 				
+			});			
+		});
 	</script>
 </th:block>
 </html>

@@ -5,10 +5,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 // 화면용 Controller
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
+	
+	/**
+	 * 회원가입 화면 
+	 * @return
+	 */
 	//http://localhost/user/sign-up-view
 	@GetMapping("/sign-up-view")
 	public String signUpView() {
@@ -16,6 +22,11 @@ public class UserController {
 		return "user/signUp";
 	}
 	
+	
+	/**
+	 * 로그인 화면 
+	 * @return
+	 */
 	//http://localhost/user/sign-in-view
 	@GetMapping("/sign-in-view")
 	public String signInView() {
