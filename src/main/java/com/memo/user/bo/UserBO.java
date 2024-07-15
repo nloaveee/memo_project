@@ -18,6 +18,7 @@ public class UserBO {
 		return userRepository.findByLoginId(loginId);
 	}
 	
+	// 회원가입
 	// input: 4파라미터 
 	// output: UserEntity
 	// 해싱된 password가 들어오지만 bo에서는 모르기 때문에 password라고 작성
@@ -28,5 +29,12 @@ public class UserBO {
 				.name(name)
 				.email(email)
 				.build());
+	}
+	
+	// 로그인
+	// input: loginId, password
+	// output: UserEntity, null
+	public UserEntity getUserEntityByLoginIdPassword(String loginId, String password) {
+		return userRepository.findByLoginIdAndPassword(loginId,password);
 	}
 }
