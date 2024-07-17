@@ -5,10 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.memo.post.domain.Post;
-import com.mysql.cj.Session;
 
 @Mapper
 public interface PostMapper {
@@ -18,11 +16,12 @@ public interface PostMapper {
 	// 글 목록 
 	public List<Post> selectPostListByUserId(int userId);
 	
-	
+	// 글 쓰기
 	// output => null 이거나 행의 갯수 
 	public void insertPost(
-			@Param("userId") Session userId,
+			@Param("userId") int userId,
 			@Param("subject") String subject,
 			@Param("content") String content,
-			@Param("file") MultipartFile file);
+			// MultipartFile는 DB에 저장 불가능 => BO에서 수정
+			@Param("imagePath") String imagePath);
 }

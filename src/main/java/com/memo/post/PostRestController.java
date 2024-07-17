@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.memo.post.bo.PostBO;
-import com.memo.post.domain.Post;
-import com.mysql.cj.Session;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -27,16 +25,18 @@ public class PostRestController {
 	@PostMapping("/create")
 	public Map<String, Object> create(
 			@RequestParam("subject") String subject,
-			@RequestParam("content") String content,
-			@RequestParam("file") MultipartFile file,
+			@RequestParam("content") String content, 
+			// null 가능 => required = false
+			@RequestParam(value ="file", required = false) MultipartFile file, 
 			HttpSession session) {
 		
+		// session에서 글쓴이 번호 꺼내기
+		int userId = (int)session.getAttribute("userId");
+		String userLoginId = (String)session.getAttribute("userLoginId");
 		
-		
-		// db 저장
-		//Post post = postBO.addPost(ssession.getAttribute("userId"), subject, content, file);
-		
-		
+		// DB insert 요청
+		postBO.addPost(userId, userLoginId, subject, content, file);
+				
 		//응답값 
 		Map<String, Object> result =new HashMap<>();
 		result.put("code", 200);
