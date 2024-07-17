@@ -16,8 +16,11 @@ import com.memo.user.entity.UserEntity;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 // 응답이 JSON으로 내려오는 API를 사용하는 controller
+// user => JPA
 
 @RestController
 @RequestMapping("/user")
@@ -126,4 +129,5 @@ public class UserRestController {
 		
 		return result;
 	}
+	
 }
