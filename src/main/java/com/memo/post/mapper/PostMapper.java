@@ -24,4 +24,9 @@ public interface PostMapper {
 			@Param("content") String content,
 			// MultipartFile는 DB에 저장 불가능 => BO에서 수정
 			@Param("imagePath") String imagePath);
+	
+	// 글 상세 
+	public Post selectPostByPostIdUserId(
+			@Param("userId") int userId, 
+			@Param("postId") int postId);
 }
