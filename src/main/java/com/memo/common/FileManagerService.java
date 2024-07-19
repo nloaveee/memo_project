@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 // 오직 컴퓨터 파일에 이미지를 저장만 하는 코드 
-// 실제로 브라우저가 원하는 이미지를 찾아서 가져오는 연결 코드는 없다 
 
 @Component
 public class FileManagerService {
@@ -18,7 +17,7 @@ public class FileManagerService {
 	// 실제 업로드가 된 이미지가 저장될 서버의 경로 
 	// ***파일 마지막에 /를 꼭 붙이기***
 	public static final String FILE_UPLOAD_PATH = "D:\\나현희\\6_spring_project\\memo\\memo_workspace\\images/"; // 학원
-	// public static final String FILE_UPLOAD_PATH = ""; // 집
+	// public static final String FILE_UPLOAD_PATH = "C:\나현희\6_spring_project\memo\workspace\images/"; // 집
 	
 	// input: MultipartFile, userLoginId
 	// output: String(이미지 경로)
