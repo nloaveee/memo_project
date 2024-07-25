@@ -29,4 +29,12 @@ public interface PostMapper {
 	public Post selectPostByPostIdUserId(
 			@Param("userId") int userId, 
 			@Param("postId") int postId);
+	
+	// 글 수정 
+	public void updatePostByPostId(
+			@Param("postId") int postId,
+			@Param("subject") String subject,
+			@Param("content") String content,
+			@Param("imagePath") String imagePath);
+
 }

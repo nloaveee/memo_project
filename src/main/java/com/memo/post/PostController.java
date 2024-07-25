@@ -60,7 +60,13 @@ public class PostController {
 		return "post/postCreate";
 	}
 	
-	// 글 상세
+	/**
+	 * 글 상세
+	 * @param postId
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/post-detail-view")
 	public String postDetailView(
 			@RequestParam("postId") int postId,

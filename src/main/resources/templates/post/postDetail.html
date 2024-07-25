@@ -25,7 +25,7 @@
 			<button type="button" id="deleteBtn" class="btn btn-secondary">삭제</button>
 			<div>
 				<a href="/post/post-list-view" class="btn btn-dark">목록</a>
-				<button type="button" id="saveBtn" class="btn btn-warning">수정</button>
+				<button type="button" id="saveBtn" class="btn btn-warning" th:data-post-id="${post.id}">수정</button>
 			</div>
 		</div>
 	</div>
@@ -33,6 +33,78 @@
 
 <th:block layout:fragment="script">
     <script>
-
+		$(document).ready(function(){
+			// 글 수정
+			$("#saveBtn").on('click',function(){
+				let postId = $(this).data("post-id");
+				let subject = $("#subject").val().trim();
+				let content = $("#content").val();
+				let fileName = $("#file").val(); // C:\fakepath\door-8831267_1280.jpg => 진짜 이미지가 아니라 경로가 나온다 
+				
+				// validation
+				if (!subject) {
+					alert("제목을 입력하세요");
+					return;
+				}
+				
+				if (!content) {
+					alert("내용을 입력하세요");
+					return;
+				}
+				
+				// 파일명이 비워져 있지 않으면 (파일명이 있는 경우) => 확장자 체크 
+				if (fileName) {
+					// C:\fakepath\door-8831267_1280.jpg
+					let extension = fileName.split(".").pop().toLowerCase(); // pop() => 배열의 제일 마지막을 가지고 온다.
+					console.log(extension);
+					
+					// extension이 뒤의 배열에 있는 값인지 아닌지 확인 
+					// 포함되어 있지 않으면 -1이다.
+					if ($.inArray(extension, ["jpg","gif","png"]) == -1) {
+						alert("이미지파일만 업로드 할 수 있습니다.");
+						$("#file").val(""); // 파일 초기화 
+						return;
+					}
+				}
+				
+				//console.log(subject);
+				//console.log(content);
+				
+				// form태그를 js에서 만든다.
+				// 이미지 업로드시 반드시 필요 
+				let formData = new FormData();
+				formData.append("postId",postId);
+				formData.append("subject", subject); // key는 name과 같고 request 파라미터명 
+				formData.append("content", content);
+				// fileName은 string이라서 안되고, $("#file")[0].files[0]로 올려야 실제 파일이 올라간다. 
+				formData.append("file", $("#file")[0].files[0]); 
+				
+				// AJAX
+				$.ajax({
+					// request
+					type:"put"
+					, url:"/post/update"
+					, data:formData
+					, enctype:"multipart/form-data" // 파일업로드 필수 설정
+					, processData:false // 파일업로드 필수 설정
+					, contentType:false // 파일업로드 필수 설정
+									
+					// response
+					, success:function(data) {
+						if (data.code == 200) {
+							alert("메모가 수정되었습니다.");
+							location.reload();
+						} else {
+							alert(data.error_message);
+						}
+					}
+				
+					,error:function(e) {
+						alert("글을 저장하는데 실패했습니다.");
+					}
+					
+				});
+			});						
+		}); //------------- ready 끝
     </script>
 </th:block>
