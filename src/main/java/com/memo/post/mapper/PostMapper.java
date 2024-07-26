@@ -14,7 +14,17 @@ public interface PostMapper {
 	public List<Map<String, Object>> selectPostListTest();
 	
 	// 글 목록 
-	public List<Post> selectPostListByUserId(int userId);
+	public List<Post> selectPostListByUserId(
+			@Param("userId") int userId,
+			@Param("standardId") Integer standardId,
+			@Param("direction") String direction,
+			@Param("limit") int limit);
+	
+	// 페이징 마지막 검사
+	// output: postId(int)
+	public int selectPostIdByUserIdAsSort(
+			@Param("userId") int userId,
+			@Param("sort") String sort);
 	
 	// 글 쓰기
 	// output => null 이거나 행의 갯수 
@@ -39,5 +49,6 @@ public interface PostMapper {
 	
 	// 글 삭제 
 	public int deletePostByPostId(int postId);
+	
 
 }
