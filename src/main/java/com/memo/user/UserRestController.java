@@ -37,7 +37,7 @@ public class UserRestController {
 	@RequestMapping("/is-duplicated-id")
 	public Map<String,Object> isDuplicatedId(@RequestParam("loginId") String loginId) {
 		
-		// 이슈 테스트 
+		// 이슈 테스트 아이디 추가 
 		
 		
 		// DB 조회
